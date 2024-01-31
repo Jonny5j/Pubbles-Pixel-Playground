@@ -51,11 +51,11 @@ public class MouseListener extends MouseAdapter {
     }
 
     private void fillRectangle(MouseEvent e, Pixel p) {
-        for (int i = 0; i < e.getX(); i++) {
-            for (int j = 0; j < e.getY(); j++) {
-                this.panel.addPixel(p);
-            }
-        }
+//        for (int i = 0; i < e.getX(); i++) {
+//            for (int j = 0; j < e.getY(); j++) {
+//                this.panel.addPixel(p);
+//            }
+//        }
     }
 
 }
