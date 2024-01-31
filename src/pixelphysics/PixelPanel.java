@@ -3,6 +3,7 @@ package pixelphysics;
 import java.awt.*;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -34,18 +35,32 @@ public class PixelPanel extends JPanel {
 
     public void step() {
         for (Pixel p : placedPixels) {
+
+            boolean checkLeftFirst = new Random().nextBoolean();
+
             if (p.y >= NUM_PIXELS - 1) { // Pixel is at the bottom of the screen
                 continue;
             } else if (pixelGrid[p.x][p.y + 1] == null) { // Empty space below
                 pixelGrid[p.x][p.y] = null;
                 p.fallDown();
-            } else if (pixelGrid[p.x - 1][p.y + 1] == null) { // Empty space left
-                pixelGrid[p.x][p.y] = null;
-                p.fallLeft();
-            } else if (pixelGrid[p.x + 1][p.y + 1] == null) { // Empty space right
-                pixelGrid[p.x][p.y] = null;
-                p.fallRight();
+            } else if (checkLeftFirst) { // Check left first
+                if (pixelGrid[p.x - 1][p.y + 1] == null) { // Left empty
+                    pixelGrid[p.x][p.y] = null;
+                    p.fallLeft();
+                } else if (pixelGrid[p.x + 1][p.y + 1] == null) { // Right empty
+                    pixelGrid[p.x][p.y] = null;
+                    p.fallRight();
+                }
+            } else { // Check Right First
+                if (pixelGrid[p.x + 1][p.y + 1] == null) { // Right empty
+                    pixelGrid[p.x][p.y] = null;
+                    p.fallRight();
+                } else if (pixelGrid[p.x - 1][p.y + 1] == null) { // Left empty
+                    pixelGrid[p.x][p.y] = null;
+                    p.fallLeft();
+                }
             }
+
             pixelGrid[p.x][p.y] = p;
             this.repaint();
         }
