@@ -4,18 +4,18 @@ import java.awt.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Random;
-
 import javax.swing.*;
 
 public class PixelPanel extends JPanel {
 
-    static int NUM_PIXELS = 128;
-    public Pixel[][] pixelGrid = new Pixel[NUM_PIXELS][NUM_PIXELS];
+    static int NUM_PIXELS_HORIZONTAL = 256;
+    static int NUM_PIXELS_VERTICAL = 128;
+    public Pixel[][] pixelGrid = new Pixel[NUM_PIXELS_HORIZONTAL][NUM_PIXELS_VERTICAL];
     public List<Pixel> placedPixels = new LinkedList<>();
 
     public PixelPanel() {
         super();
-        this.setPreferredSize(new Dimension(NUM_PIXELS * Pixel.PIXEL_SIZE, NUM_PIXELS * Pixel.PIXEL_SIZE));
+        this.setPreferredSize(new Dimension(NUM_PIXELS_HORIZONTAL * Pixel.PIXEL_SIZE, NUM_PIXELS_VERTICAL * Pixel.PIXEL_SIZE));
         this.setBackground(getBackground());
     }
 
@@ -38,7 +38,7 @@ public class PixelPanel extends JPanel {
 
             boolean checkLeftFirst = new Random().nextBoolean();
 
-            if (p.y >= NUM_PIXELS - 1) { // Pixel is at the bottom of the screen
+            if (p.y >= NUM_PIXELS_VERTICAL - 1) { // Pixel is at the bottom of the screen
                 continue;
             } else if (pixelGrid[p.x][p.y + 1] == null) { // Empty space below
                 pixelGrid[p.x][p.y] = null;

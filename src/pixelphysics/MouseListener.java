@@ -1,8 +1,7 @@
 package pixelphysics;
 
-import solids.Brick;
-import solids.Sand;
-
+import solids.*;
+import liquids.*;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
