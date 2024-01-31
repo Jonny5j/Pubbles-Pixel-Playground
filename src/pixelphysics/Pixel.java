@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Pixel {
 
-    static int PIXEL_SIZE = 4;
+    public static int PIXEL_SIZE = 4;
     public Color c;
     public int x;
     public int y;
