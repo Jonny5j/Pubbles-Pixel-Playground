@@ -16,10 +16,6 @@ public class Pixel {
         this.y = y / PIXEL_SIZE;
     }
 
-    private int round(int pos) {
-        return (pos / PIXEL_SIZE) * PIXEL_SIZE;
-    }
-
     public void fallDown() {
         this.y++;
     }

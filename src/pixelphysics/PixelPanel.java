@@ -1,8 +1,8 @@
 package pixelphysics;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 
 import javax.swing.*;
 
@@ -24,7 +24,7 @@ public class PixelPanel extends JPanel {
             return;
         }
 
-        System.out.println("Pixel Created at: " + p.x + ", " + p.y);
+        System.out.println("Pixel Created at: " + p.x + ", " + p.y + ". Color: " + p.c);
 
         pixelGrid[p.x][p.y] = p;
         placedPixels.add(p);
