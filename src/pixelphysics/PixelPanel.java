@@ -40,23 +40,22 @@ public class PixelPanel extends JPanel {
 
             if (p.y >= NUM_PIXELS_VERTICAL - 1) { // Pixel is at the bottom of the screen
                 continue;
-            } else if (pixelGrid[p.x][p.y + 1] == null) { // Empty space below
-                pixelGrid[p.x][p.y] = null;
+            }
+
+            pixelGrid[p.x][p.y] = null;
+
+            if (pixelGrid[p.x][p.y + 1] == null) { // Empty space below
                 p.fallDown();
             } else if (checkLeftFirst) { // Check left first
-                if (pixelGrid[p.x - 1][p.y + 1] == null) { // Left empty
-                    pixelGrid[p.x][p.y] = null;
+                if (checkLeft(p)) {
                     p.fallLeft();
-                } else if (pixelGrid[p.x + 1][p.y + 1] == null) { // Right empty
-                    pixelGrid[p.x][p.y] = null;
+                } else if (checkRight(p)) {
                     p.fallRight();
                 }
             } else { // Check Right First
-                if (pixelGrid[p.x + 1][p.y + 1] == null) { // Right empty
-                    pixelGrid[p.x][p.y] = null;
+                if (checkRight(p)) {
                     p.fallRight();
-                } else if (pixelGrid[p.x - 1][p.y + 1] == null) { // Left empty
-                    pixelGrid[p.x][p.y] = null;
+                } else if (checkLeft(p)) {
                     p.fallLeft();
                 }
             }
@@ -64,6 +63,14 @@ public class PixelPanel extends JPanel {
             pixelGrid[p.x][p.y] = p;
             this.repaint();
         }
+    }
+
+    private boolean checkLeft(Pixel p) {
+        return pixelGrid[p.x - 1][p.y] == null && pixelGrid[p.x - 1][p.y + 1] == null;
+    }
+
+    private boolean checkRight(Pixel p) {
+        return pixelGrid[p.x + 1][p.y] == null && pixelGrid[p.x + 1][p.y + 1] == null;
     }
 
     public void paintComponent(Graphics g) {
