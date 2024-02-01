@@ -8,7 +8,7 @@ import java.awt.*;
 public class PixelApp {
 
     static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pubble's Pixel Physics - Version 0.2.3");
+    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.2.3");
 
     public static void main(String[] args) {
         initWindow();
