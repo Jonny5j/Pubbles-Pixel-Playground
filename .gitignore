@@ -25,6 +25,6 @@ replay_pid*
 
 # Other
 .idea/*
-out/*
 *.iml
 *.xml
+out/artifacts/Pubble_s_Pixel_Playground_jar/Pubble's Pixel Playground.jar

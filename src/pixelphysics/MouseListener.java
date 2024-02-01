@@ -3,17 +3,19 @@ package pixelphysics;
 import solids.Brick;
 import solids.Sand;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 import java.util.Random;
 
 public class MouseListener extends MouseAdapter {
 
+    private final int PIXEL_DELAY = 20; // Delay between place/remove operations in ms
     private final PixelPanel panel;
-    private static int selectedPixelIndex = 0;
+    private static int selectedPixelIndex;
+    private static Timer timer;
+    private int mouseX;
+    private int mouseY;
     private static final String[] pixelLabels = {"Brick", "Random", "Sand"}; // Add future pixels here to add to menu
 
 
@@ -22,59 +24,73 @@ public class MouseListener extends MouseAdapter {
     }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        System.out.println(e.getScrollAmount());
+    public void mousePressed(MouseEvent e) {
+        this.mouseX = e.getX();
+        this.mouseY = e.getY();
+        timer = new Timer(PIXEL_DELAY, actionEvent -> lmbPressed());
+        timer.start();
+    }
 
-        selectedPixelIndex++;
-        if (selectedPixelIndex >= pixelLabels.length) {
-            selectedPixelIndex -= pixelLabels.length;
-        }
+    public void mouseReleased(MouseEvent e) {
+        timer.stop();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        this.mouseX = e.getX();
+        this.mouseY = e.getY();
+        timer.stop();
         if (SwingUtilities.isLeftMouseButton(e)) {
 //            System.out.println("LMB");
-            switch (pixelLabels[selectedPixelIndex]) {
-                case "Brick":
-                    newBrick(e);
-                    break;
-                case "Random":
-                    newRandom(e);
-                    break;
-                case "Sand":
-                    newSand(e);
-                    break;
-            }
-
+            lmbPressed();
         } else if (SwingUtilities.isRightMouseButton(e)) {
 //            System.out.println("RMB");
-            panel.removePixel(e.getX(), e.getY());
+            rmbPressed();
+        }
+        timer.start();
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.getUnitsToScroll() > 0) {
+            selectedPixelIndex++;
+            if (selectedPixelIndex >= pixelLabels.length) {
+                selectedPixelIndex -= pixelLabels.length;
+            }
+        } else if (e.getUnitsToScroll() < 0) {
+            selectedPixelIndex--;
+            if (selectedPixelIndex <= 0) {
+                selectedPixelIndex += pixelLabels.length - 1;
+            }
         }
     }
 
+    private void lmbPressed() {
+        switch (pixelLabels[selectedPixelIndex]) {
+            case "Brick":
+                this.panel.addPixel(new Brick(this.mouseX, this.mouseY));
+                break;
+            case "Random":
+                Random random = new Random();
+
+                float r = (float) (random.nextFloat() / 2f + 0.5);
+                float g = (float) (random.nextFloat() / 2f + 0.5);
+                float b = (float) (random.nextFloat() / 2f + 0.5);
+
+                this.panel.addPixel(new Pixel(new Color(r, g, b), this.mouseX, this.mouseY));
+                break;
+            case "Sand":
+                this.panel.addPixel(new Sand(this.mouseX, this.mouseY));
+                break;
+        }
+    }
+
+    private void rmbPressed() {
+        panel.removePixel(this.mouseX, this.mouseY);
+    }
 
     public String getSelectedPixel() {
         return pixelLabels[selectedPixelIndex];
-    }
-
-    public void newBrick(MouseEvent e) {
-        this.panel.addPixel(new Brick(e.getX(), e.getY()));
-    }
-
-    public void newRandom(MouseEvent e) {
-        // Random Color Pixel
-        Random random = new Random();
-
-        float r = (float) (random.nextFloat() / 2f + 0.5);
-        float g = (float) (random.nextFloat() / 2f + 0.5);
-        float b = (float) (random.nextFloat() / 2f + 0.5);
-
-        this.panel.addPixel(new Pixel(new Color(r, g, b), e.getX(), e.getY()));
-    }
-
-    public void newSand(MouseEvent e) {
-        this.panel.addPixel(new Sand(e.getX(), e.getY()));
     }
 
 }
