@@ -13,29 +13,34 @@ import java.util.Random;
 public class MouseListener extends MouseAdapter {
 
     private final PixelPanel panel;
+    private static int selectedPixelIndex;
+    private static final String[] pixelLabels = {"Random", "Sand", "Brick"}; // Add future pixels here to add to menu
+
+
     public MouseListener(PixelPanel panel) {
         this.panel = panel;
     }
-
-    private int selectedPixelIndex;
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             System.out.println("LMB");
-            switch (this.selectedPixelIndex) {
-                case 0:
+            switch (pixelLabels[selectedPixelIndex]) {
+                case "Random":
                     newRandom(e);
                     break;
-                case 1:
+                case "Sand":
                     newSand(e);
                     break;
-//                case2:
-//                    newWater(e);
+                case "Brick":
+                    newBrick(e);
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
             System.out.println("RMB");
-            newBrick(e);
+            selectedPixelIndex++;
+            if (selectedPixelIndex >= pixelLabels.length) {
+                selectedPixelIndex -= pixelLabels.length;
+            }
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
             System.out.println("MMB");
             fillRectangle(e, new Sand(e.getX(), e.getY()));
@@ -47,10 +52,13 @@ public class MouseListener extends MouseAdapter {
         System.out.println("scroll");
         selectedPixelIndex += e.getScrollAmount();
 
-        int NUM_TYPES = 2;
-        while (selectedPixelIndex >= NUM_TYPES) {
-            selectedPixelIndex -= NUM_TYPES;
+        if (selectedPixelIndex >= pixelLabels.length) {
+            selectedPixelIndex -= pixelLabels.length;
         }
+    }
+
+    public String getSelectedPixel() {
+        return pixelLabels[selectedPixelIndex];
     }
 
     public void newBrick(MouseEvent e) {

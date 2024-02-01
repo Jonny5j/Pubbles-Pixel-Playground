@@ -12,6 +12,7 @@ public class PixelPanel extends JPanel {
     public static Pixel[][] pixelGrid = new Pixel[NUM_PIXELS_HORIZONTAL][NUM_PIXELS_VERTICAL];
     public final static List<Pixel> placedPixels = new ArrayList<>();
 
+
     public PixelPanel() {
         super();
         this.setPreferredSize(new Dimension(NUM_PIXELS_HORIZONTAL * Pixel.PIXEL_SIZE, NUM_PIXELS_VERTICAL * Pixel.PIXEL_SIZE));
@@ -40,6 +41,7 @@ public class PixelPanel extends JPanel {
         }
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
