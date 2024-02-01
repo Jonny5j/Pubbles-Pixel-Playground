@@ -1,16 +1,16 @@
 package pixelphysics;
 
-import java.awt.*;
-import java.util.List;
-import java.util.LinkedList;
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PixelPanel extends JPanel {
 
     static int NUM_PIXELS_HORIZONTAL = 256;
     static int NUM_PIXELS_VERTICAL = 128;
     public static Pixel[][] pixelGrid = new Pixel[NUM_PIXELS_HORIZONTAL][NUM_PIXELS_VERTICAL];
-    public static List<Pixel> placedPixels = new LinkedList<>();
+    public final static List<Pixel> placedPixels = new ArrayList<>();
 
     public PixelPanel() {
         super();
@@ -27,13 +27,14 @@ public class PixelPanel extends JPanel {
         System.out.println("Pixel Created at: " + p.x + ", " + p.y + ". Color: " + p.c);
 
         pixelGrid[p.x][p.y] = p;
-        placedPixels.add(p);
+        placedPixels.addFirst(p);
 
         this.repaint();
     }
 
     public void step() {
-        for (Pixel p : placedPixels) {
+        List<Pixel> readAll = new ArrayList<>(placedPixels); // Create a copy to read from to avoid ConcurrentModificationException
+        for (Pixel p : readAll) {
             pixelGrid = p.updatePos(pixelGrid);
             this.repaint();
         }
@@ -41,6 +42,7 @@ public class PixelPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         for (Pixel[] cols : pixelGrid) {
             for (Pixel p : cols) {
                 if (p == null) {

@@ -1,32 +1,55 @@
 package pixelphysics;
 
-import solids.*;
-import liquids.*;
+import solids.Brick;
+import solids.Sand;
+
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.Random;
 
 public class MouseListener extends MouseAdapter {
 
     private final PixelPanel panel;
-
     public MouseListener(PixelPanel panel) {
         this.panel = panel;
     }
+
+    private int selectedPixelIndex;
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             System.out.println("LMB");
-            newRandom(e);
+            switch (this.selectedPixelIndex) {
+                case 0:
+                    newRandom(e);
+                    break;
+                case 1:
+                    newSand(e);
+                    break;
+//                case2:
+//                    newWater(e);
+            }
         } else if (SwingUtilities.isRightMouseButton(e)) {
             System.out.println("RMB");
             newBrick(e);
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
             System.out.println("MMB");
             fillRectangle(e, new Sand(e.getX(), e.getY()));
+        }
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        System.out.println("scroll");
+        selectedPixelIndex += e.getScrollAmount();
+
+        int NUM_TYPES = 2;
+        while (selectedPixelIndex >= NUM_TYPES) {
+            selectedPixelIndex -= NUM_TYPES;
         }
     }
 

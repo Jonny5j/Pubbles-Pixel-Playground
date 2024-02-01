@@ -1,12 +1,14 @@
 package pixelphysics;
 
-import java.awt.Color;
-import javax.swing.JFrame;
+import solids.Sand;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class PixelApp {
 
     static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pubble's Pixel Physics - Version 0.2.2");
+    static JFrame window = new JFrame("Pubble's Pixel Physics - Version 0.2.3");
 
     public static void main(String[] args) {
         initWindow();
@@ -24,7 +26,11 @@ public class PixelApp {
     }
 
     public static void gameRun() {
-       while (true) {
+//        int i = 0;
+        while (true) {
+//            if (i % 5 == 0) {
+//                graphics.addPixel(new Sand(graphics.getWidth() / 2, 0));
+//            }
             try {
                 Thread.sleep(10);
                 graphics.step();
@@ -32,6 +38,7 @@ public class PixelApp {
                 e.printStackTrace();
                 System.exit(1);
             }
+//            i++;
         }
     }
 

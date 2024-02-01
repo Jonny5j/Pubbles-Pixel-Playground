@@ -1,7 +1,6 @@
 package pixelphysics;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Random;
 
 public class Pixel {
@@ -82,41 +81,41 @@ public class Pixel {
         return pixelGrid;
     }
 
-    public boolean checkN(Pixel[][] pixelGrid) {
+    private boolean checkN(Pixel[][] pixelGrid) {
         return pixelGrid[this.x][this.y - 1] == null;
     }
 
-    public boolean checkNE(Pixel[][] pixelGrid) {
+    private boolean checkNE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y - 1] == null;
     }
 
-    public boolean checkE(Pixel[][] pixelGrid) {
+    private boolean checkE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y] == null;
     }
 
-    public boolean checkSE(Pixel[][] pixelGrid) {
+    private boolean checkSE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y + 1] == null;
     }
 
-    public boolean checkS(Pixel[][] pixelGrid) {
+    private boolean checkS(Pixel[][] pixelGrid) {
         return pixelGrid[this.x][this.y + 1] == null;
     }
 
-    public boolean checkSW(Pixel[][] pixelGrid) {
+    private boolean checkSW(Pixel[][] pixelGrid) {
         return pixelGrid[this.x - 1][this.y + 1] == null;
     }
 
-    public boolean checkW(Pixel[][] pixelGrid) {
+    private boolean checkW(Pixel[][] pixelGrid) {
         return pixelGrid[this.x - 1][this.y] == null;
     }
 
-    public boolean checkNW(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x - 1][this.y -  1] == null;
+    private boolean checkNW(Pixel[][] pixelGrid) {
+        return pixelGrid[this.x - 1][this.y - 1] == null;
     }
 
     public void draw(Graphics g) {
         g.setColor(this.c);
         g.fillRect(this.x * PIXEL_SIZE, this.y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
     }
-    
+
 }
