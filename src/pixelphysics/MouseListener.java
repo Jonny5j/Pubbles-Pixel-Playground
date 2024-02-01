@@ -14,7 +14,7 @@ public class MouseListener extends MouseAdapter {
 
     private final PixelPanel panel;
     private static int selectedPixelIndex;
-    private static final String[] pixelLabels = {"Random", "Sand", "Brick"}; // Add future pixels here to add to menu
+    private static final String[] pixelLabels = {"Brick", "Random", "Sand"}; // Add future pixels here to add to menu
 
 
     public MouseListener(PixelPanel panel) {
@@ -24,34 +24,31 @@ public class MouseListener extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
-            System.out.println("LMB");
+//            System.out.println("LMB");
             switch (pixelLabels[selectedPixelIndex]) {
+                case "Brick":
+                    newBrick(e);
+                    break;
                 case "Random":
                     newRandom(e);
                     break;
                 case "Sand":
                     newSand(e);
                     break;
-                case "Brick":
-                    newBrick(e);
             }
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            System.out.println("RMB");
-            selectedPixelIndex++;
-            if (selectedPixelIndex >= pixelLabels.length) {
-                selectedPixelIndex -= pixelLabels.length;
-            }
+//            System.out.println("RMB");
+            this.panel.removePixel(e.getX(), e.getY());
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
-            System.out.println("MMB");
-            fillRectangle(e, new Sand(e.getX(), e.getY()));
+//            System.out.println("MMB");
         }
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        System.out.println("scroll");
-        selectedPixelIndex += e.getScrollAmount();
+        System.out.println(e.getScrollAmount());
 
+        selectedPixelIndex++;
         if (selectedPixelIndex >= pixelLabels.length) {
             selectedPixelIndex -= pixelLabels.length;
         }
@@ -78,14 +75,6 @@ public class MouseListener extends MouseAdapter {
 
     public void newSand(MouseEvent e) {
         this.panel.addPixel(new Sand(e.getX(), e.getY()));
-    }
-
-    private void fillRectangle(MouseEvent e, Pixel p) {
-//        for (int i = 0; i < e.getX(); i++) {
-//            for (int j = 0; j < e.getY(); j++) {
-//                this.panel.addPixel(p);
-//            }
-//        }
     }
 
 }

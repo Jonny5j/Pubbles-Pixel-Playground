@@ -8,7 +8,7 @@ import java.awt.*;
 public class PixelApp {
 
     static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.2.4");
+    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.3.0");
     static MouseListener mouse;
 
     public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class PixelApp {
     public static void initWindow() {
         mouse = new MouseListener(graphics);
         graphics.addMouseListener(mouse);
+        graphics.addMouseWheelListener(mouse);
         graphics.setBackground(Color.BLACK);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);

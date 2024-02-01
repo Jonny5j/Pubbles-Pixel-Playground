@@ -2,6 +2,7 @@ package pixelphysics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,6 @@ public class PixelPanel extends JPanel {
     public PixelPanel() {
         super();
         this.setPreferredSize(new Dimension(NUM_PIXELS_HORIZONTAL * Pixel.PIXEL_SIZE, NUM_PIXELS_VERTICAL * Pixel.PIXEL_SIZE));
-        this.setBackground(getBackground());
     }
 
     public void addPixel(Pixel p) {
@@ -25,12 +25,26 @@ public class PixelPanel extends JPanel {
             return;
         }
 
-        System.out.println("Pixel Created at: " + p.x + ", " + p.y + ". Color: " + p.c);
+        System.out.println(p.getClass() + " Created at: " + p.x + ", " + p.y + ". Color: " + p.c);
 
         pixelGrid[p.x][p.y] = p;
         placedPixels.addFirst(p);
 
         this.repaint();
+    }
+
+    public Pixel removePixel(int x, int y) {
+        if (pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE] == null) {
+            return null;
+        }
+
+        Pixel removed = pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE];
+        System.out.println("Removed pixel at " + x + ", " + y);
+        pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE] = null;
+
+        this.repaint();
+        return removed;
+
     }
 
     public void step() {
