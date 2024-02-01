@@ -1,4 +1,4 @@
-# Pubbles Pixel Playground - V0.3.0
+# Pubble's Pixel Playground - V0.3.0
  
 Left click to spawn a pixel.\
 Right click to delete a pixel.\
