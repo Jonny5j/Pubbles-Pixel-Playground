@@ -1,7 +1,7 @@
 package pixelphysics;
 
-import solids.Brick;
-import solids.Sand;
+import liquids.*;
+import solids.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,7 @@ public class MouseListener extends MouseAdapter {
     private static Timer timer;
     private int mouseX;
     private int mouseY;
-    private static final String[] pixelLabels = {"Brick", "Random", "Sand"}; // Add future pixels here to add to menu
+    private static final String[] pixelLabels = {"Brick", "Random", "Sand", "Water"}; // Add future pixels here to add to menu
 
 
     public MouseListener(PixelPanel panel) {
@@ -27,7 +27,14 @@ public class MouseListener extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         this.mouseX = e.getX();
         this.mouseY = e.getY();
-        timer = new Timer(PIXEL_DELAY, actionEvent -> lmbPressed());
+
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            timer = new Timer(PIXEL_DELAY, actionEvent -> lmbPressed());
+        }
+
+        if (SwingUtilities.isRightMouseButton(e)) {
+            timer = new Timer(PIXEL_DELAY, actionEvent -> rmbPressed());
+        }
         timer.start();
     }
 
@@ -41,10 +48,10 @@ public class MouseListener extends MouseAdapter {
         this.mouseY = e.getY();
         timer.stop();
         if (SwingUtilities.isLeftMouseButton(e)) {
-//            System.out.println("LMB");
             lmbPressed();
-        } else if (SwingUtilities.isRightMouseButton(e)) {
-//            System.out.println("RMB");
+        }
+
+        if (SwingUtilities.isRightMouseButton(e)) {
             rmbPressed();
         }
         timer.start();
@@ -81,6 +88,9 @@ public class MouseListener extends MouseAdapter {
                 break;
             case "Sand":
                 this.panel.addPixel(new Sand(this.mouseX, this.mouseY));
+                break;
+            case "Water":
+                this.panel.addPixel(new Water(this.mouseX, this.mouseY));
                 break;
         }
     }

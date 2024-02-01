@@ -6,7 +6,7 @@ import java.awt.*;
 public class PixelApp {
 
     static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.4.1");
+    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.5.0");
     static MouseListener mouse;
 
     public static void main(String[] args) {

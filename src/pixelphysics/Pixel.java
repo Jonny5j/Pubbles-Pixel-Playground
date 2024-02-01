@@ -1,6 +1,8 @@
 package pixelphysics;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 public class Pixel {
@@ -20,7 +22,7 @@ public class Pixel {
     }
 
     public Pixel[][] updatePos(Pixel[][] pixelGrid) {
-        int pickDirection = new Random().nextInt(2); // Fall direction preference
+        int pickDirection = new Random().nextInt(2); // Fall direction search preference
 
         try {
             if (checkS(pixelGrid)) {
@@ -49,28 +51,38 @@ public class Pixel {
         return pixelGrid;
     }
 
-    public Pixel[][] moveSW(Pixel[][] pixelGrid) {
-        if (this.checkW(pixelGrid) && this.checkSW(pixelGrid)) {
+    protected Pixel[][] moveN(Pixel[][] pixelGrid) {
+        if (checkN(pixelGrid)) {
             pixelGrid[this.x][this.y] = null;
-            this.x--;
-            this.y++;
+            this.y--;
             pixelGrid[this.x][this.y] = this;
         }
 
         return pixelGrid;
     }
 
-    public Pixel[][] moveS(Pixel[][] pixelGrid) {
-        if (checkS(pixelGrid)) {
+    protected Pixel[][] moveNE(Pixel[][] pixelGrid) {
+        if (checkNE(pixelGrid)) {
             pixelGrid[this.x][this.y] = null;
-            this.y++;
+            this.x++;
+            this.y--;
             pixelGrid[this.x][this.y] = this;
         }
 
         return pixelGrid;
     }
 
-    public Pixel[][] moveSE(Pixel[][] pixelGrid) {
+    protected Pixel[][] moveE(Pixel[][] pixelGrid) {
+        if (checkN(pixelGrid)) {
+            pixelGrid[this.x][this.y] = null;
+            this.x++;
+            pixelGrid[this.x][this.y] = this;
+        }
+
+        return pixelGrid;
+    }
+
+    protected Pixel[][] moveSE(Pixel[][] pixelGrid) {
         if (this.checkE(pixelGrid) && this.checkSE(pixelGrid)) {
             pixelGrid[this.x][this.y] = null;
             this.x++;
@@ -81,35 +93,77 @@ public class Pixel {
         return pixelGrid;
     }
 
-    private boolean checkN(Pixel[][] pixelGrid) {
+    protected Pixel[][] moveS(Pixel[][] pixelGrid) {
+        if (checkS(pixelGrid)) {
+            pixelGrid[this.x][this.y] = null;
+            this.y++;
+            pixelGrid[this.x][this.y] = this;
+        }
+
+        return pixelGrid;
+    }
+
+    protected Pixel[][] moveSW(Pixel[][] pixelGrid) {
+        if (this.checkW(pixelGrid) && this.checkSW(pixelGrid)) {
+            pixelGrid[this.x][this.y] = null;
+            this.x--;
+            this.y++;
+            pixelGrid[this.x][this.y] = this;
+        }
+
+        return pixelGrid;
+    }
+
+    protected Pixel[][] moveW(Pixel[][] pixelGrid) {
+        if (checkW(pixelGrid)) {
+            pixelGrid[this.x][this.y] = null;
+            this.x--;
+            pixelGrid[this.x][this.y] = this;
+        }
+
+        return pixelGrid;
+    }
+
+    protected Pixel[][] moveNW(Pixel[][] pixelGrid) {
+        if (checkN(pixelGrid)) {
+            pixelGrid[this.x][this.y] = null;
+            this.x--;
+            this.y--;
+            pixelGrid[this.x][this.y] = this;
+        }
+
+        return pixelGrid;
+    }
+
+    protected boolean checkN(Pixel[][] pixelGrid) {
         return pixelGrid[this.x][this.y - 1] == null;
     }
 
-    private boolean checkNE(Pixel[][] pixelGrid) {
+    protected boolean checkNE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y - 1] == null;
     }
 
-    private boolean checkE(Pixel[][] pixelGrid) {
+    protected boolean checkE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y] == null;
     }
 
-    private boolean checkSE(Pixel[][] pixelGrid) {
+    protected boolean checkSE(Pixel[][] pixelGrid) {
         return pixelGrid[this.x + 1][this.y + 1] == null;
     }
 
-    private boolean checkS(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x][this.y + 1] == null;
+    protected boolean checkS(Pixel[][] pixelGrid) {
+        return this.y < PixelPanel.NUM_PIXELS_VERTICAL - 1 && (pixelGrid[this.x][this.y + 1] == null);
     }
 
-    private boolean checkSW(Pixel[][] pixelGrid) {
+    protected boolean checkSW(Pixel[][] pixelGrid) {
         return pixelGrid[this.x - 1][this.y + 1] == null;
     }
 
-    private boolean checkW(Pixel[][] pixelGrid) {
+    protected boolean checkW(Pixel[][] pixelGrid) {
         return pixelGrid[this.x - 1][this.y] == null;
     }
 
-    private boolean checkNW(Pixel[][] pixelGrid) {
+    protected boolean checkNW(Pixel[][] pixelGrid) {
         return pixelGrid[this.x - 1][this.y - 1] == null;
     }
 
