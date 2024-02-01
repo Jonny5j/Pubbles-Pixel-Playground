@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 public class PixelApp {
 
     static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pixel Physics - Version 0.2.1");
+    static JFrame window = new JFrame("Pubble's Pixel Physics - Version 0.2.2");
 
     public static void main(String[] args) {
         initWindow();

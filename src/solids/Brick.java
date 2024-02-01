@@ -11,15 +11,8 @@ public class Brick extends Pixel {
     }
 
     @Override
-    public void fallDown() {
-    }
-
-    @Override
-    public void fallLeft() {
-    }
-
-    @Override
-    public void fallRight() {
+    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
+        return pixelGrid;
     }
 
 }
