@@ -3,7 +3,7 @@ package pixelphysics;
 import solids.Brick;
 import solids.Sand;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,7 +13,7 @@ import java.util.Random;
 public class MouseListener extends MouseAdapter {
 
     private final PixelPanel panel;
-    private static int selectedPixelIndex;
+    private static int selectedPixelIndex = 0;
     private static final String[] pixelLabels = {"Brick", "Random", "Sand"}; // Add future pixels here to add to menu
 
 
@@ -22,7 +22,17 @@ public class MouseListener extends MouseAdapter {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        System.out.println(e.getScrollAmount());
+
+        selectedPixelIndex++;
+        if (selectedPixelIndex >= pixelLabels.length) {
+            selectedPixelIndex -= pixelLabels.length;
+        }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
 //            System.out.println("LMB");
             switch (pixelLabels[selectedPixelIndex]) {
@@ -36,23 +46,13 @@ public class MouseListener extends MouseAdapter {
                     newSand(e);
                     break;
             }
+
         } else if (SwingUtilities.isRightMouseButton(e)) {
 //            System.out.println("RMB");
-            this.panel.removePixel(e.getX(), e.getY());
-        } else if (SwingUtilities.isMiddleMouseButton(e)) {
-//            System.out.println("MMB");
+            panel.removePixel(e.getX(), e.getY());
         }
     }
 
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        System.out.println(e.getScrollAmount());
-
-        selectedPixelIndex++;
-        if (selectedPixelIndex >= pixelLabels.length) {
-            selectedPixelIndex -= pixelLabels.length;
-        }
-    }
 
     public String getSelectedPixel() {
         return pixelLabels[selectedPixelIndex];
