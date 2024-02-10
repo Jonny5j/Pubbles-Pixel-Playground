@@ -3,44 +3,57 @@ package pixelphysics;
 import javax.swing.*;
 import java.awt.*;
 
-public class PixelApp {
+public class PixelApp implements Runnable {
 
-    static PixelPanel graphics = new PixelPanel();
-    static JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.5.0");
-    static MouseListener mouse;
+    public PixelPanel panel;
+    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.6");
+    public MouseListener mouse;
+    public final double TPS = 60.0; // Ticks Per Second (should also be FPS)
 
     public static void main(String[] args) {
+        Thread t = new Thread(new PixelApp());
+        t.start();
+    }
+
+    @Override
+    public void run() {
         initWindow();
-        gameRun();
-    }
 
-    public static void initWindow() {
-        mouse = new MouseListener(graphics);
-        graphics.addMouseListener(mouse);
-        graphics.addMouseWheelListener(mouse);
-        graphics.addMouseMotionListener(mouse);
-        graphics.setBackground(Color.BLACK);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setResizable(false);
-        window.setContentPane(graphics);
-        window.pack();
-        window.setVisible(true);
-    }
 
-    public static void gameRun() {
         JLabel selectedPixel = new JLabel("Selected: " + mouse.getSelectedPixel());
-        graphics.add(selectedPixel);
-        while (true) {
-            try {
-                Thread.sleep(10);
-                graphics.step();
+        selectedPixel.setForeground(Color.WHITE);
+        this.panel.add(selectedPixel);
+
+        long lastTime = System.nanoTime();
+        final double ns = 1000000000.0 / this.TPS;
+        double delta = 0;
+        while(true) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while(delta >= 1){
                 selectedPixel.setText("Selected: " + mouse.getSelectedPixel());
-                selectedPixel.setForeground(Color.WHITE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.exit(1);
+                this.panel.step();
+
+                delta--;
             }
         }
+    }
+
+    public void initWindow() {
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        this.panel = new PixelPanel(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
+        this.mouse = new MouseListener(this.panel);
+        this.panel.addMouseListener(this.mouse);
+        this.panel.addMouseWheelListener(this.mouse);
+        this.panel.addMouseMotionListener(this.mouse);
+        this.panel.setBackground(Color.BLACK);
+        this.window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.window.setResizable(false);
+        this.window.setContentPane(this.panel);
+        this.window.pack();
+        device.setFullScreenWindow(this.window);
+        this.window.setVisible(true);
     }
 
 }

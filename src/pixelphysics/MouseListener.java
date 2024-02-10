@@ -16,7 +16,8 @@ public class MouseListener extends MouseAdapter {
     private static Timer timer;
     private int mouseX;
     private int mouseY;
-    private static final String[] pixelLabels = {"Brick", "Random", "Sand", "Water"}; // Add future pixels here to add to menu
+    private int brushSize = 1;
+    private static final String[] pixelLabels = {"Brick", "Random", "Sand", "Water", "Sponge"}; // Add future pixels here to add to menu
 
 
     public MouseListener(PixelPanel panel) {
@@ -38,6 +39,7 @@ public class MouseListener extends MouseAdapter {
         timer.start();
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         timer.stop();
     }
@@ -59,15 +61,27 @@ public class MouseListener extends MouseAdapter {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (e.getUnitsToScroll() > 0) {
-            selectedPixelIndex++;
-            if (selectedPixelIndex >= pixelLabels.length) {
-                selectedPixelIndex -= pixelLabels.length;
+        if (e.getUnitsToScroll() > 0) { // Scroll wheel down
+            if (e.isControlDown() && this.brushSize > 1) {
+                this.brushSize--;
+                System.out.println("Brush size: " + this.brushSize);
+                return;
             }
-        } else if (e.getUnitsToScroll() < 0) {
+
+            selectedPixelIndex++;
+            if (selectedPixelIndex > pixelLabels.length - 1) {
+                selectedPixelIndex = 0;
+            }
+        } else if (e.getUnitsToScroll() < 0) { // Scroll wheel up
+            if (e.isControlDown() && this.brushSize < 8) {
+                this.brushSize++;
+                System.out.println("Brush size: " + this.brushSize);
+                return;
+            }
+
             selectedPixelIndex--;
-            if (selectedPixelIndex <= 0) {
-                selectedPixelIndex += pixelLabels.length - 1;
+            if (selectedPixelIndex < 0) {
+                selectedPixelIndex = pixelLabels.length - 1;
             }
         }
     }
@@ -84,13 +98,16 @@ public class MouseListener extends MouseAdapter {
                 float g = (float) (random.nextFloat() / 2f + 0.5);
                 float b = (float) (random.nextFloat() / 2f + 0.5);
 
-                this.panel.addPixel(new Pixel(new Color(r, g, b), this.mouseX, this.mouseY));
+                this.panel.addPixel(new FallingSolid(new Color(r, g, b), this.mouseX, this.mouseY));
                 break;
             case "Sand":
                 this.panel.addPixel(new Sand(this.mouseX, this.mouseY));
                 break;
             case "Water":
                 this.panel.addPixel(new Water(this.mouseX, this.mouseY));
+                break;
+            case "Sponge":
+                this.panel.addPixel(new Sponge(this.mouseX, this.mouseY));
                 break;
         }
     }

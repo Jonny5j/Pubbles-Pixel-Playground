@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PixelPanel extends JPanel {
-
-    static int NUM_PIXELS_HORIZONTAL = 256;
-    static int NUM_PIXELS_VERTICAL = 128;
-    public static Pixel[][] pixelGrid = new Pixel[NUM_PIXELS_HORIZONTAL][NUM_PIXELS_VERTICAL];
+    public static int PIXEL_SIZE = 4;
+    public static Pixel[][] pixelGrid;
     public final static List<Pixel> placedPixels = new ArrayList<>();
 
 
-    public PixelPanel() {
+    public PixelPanel(int w, int h) {
         super();
-        this.setPreferredSize(new Dimension(NUM_PIXELS_HORIZONTAL * Pixel.PIXEL_SIZE, NUM_PIXELS_VERTICAL * Pixel.PIXEL_SIZE));
+        int numPixelsHorizontal = w / PIXEL_SIZE;
+        int numPixelsVertical = h / PIXEL_SIZE;
+        pixelGrid = new Pixel[numPixelsHorizontal][numPixelsVertical];
+        this.setPreferredSize(new Dimension(numPixelsHorizontal, numPixelsVertical));
     }
 
     public void addPixel(Pixel p) {
@@ -33,13 +34,13 @@ public class PixelPanel extends JPanel {
     }
 
     public Pixel removePixel(int x, int y) {
-        if (pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE] == null) {
+        if (pixelGrid[x / PIXEL_SIZE][y / PIXEL_SIZE] == null) {
             return null;
         }
 
-        Pixel removed = pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE];
+        Pixel removed = pixelGrid[x / PIXEL_SIZE][y / PIXEL_SIZE];
         System.out.println("Removed pixel at " + x + ", " + y);
-        pixelGrid[x / Pixel.PIXEL_SIZE][y / Pixel.PIXEL_SIZE] = null;
+        pixelGrid[x / PIXEL_SIZE][y / PIXEL_SIZE] = null;
 
         this.repaint();
         return removed;
