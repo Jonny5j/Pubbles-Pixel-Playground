@@ -1,9 +1,9 @@
 package solids;
 
 import pixelphysics.Pixel;
+import pixelphysics.PixelPanel;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Sand extends FallingSolid {
 
@@ -12,27 +12,22 @@ public class Sand extends FallingSolid {
     }
 
     @Override
-    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
+    public void updatePos() {
         try {
-            if (getS(pixelGrid) == null) {
-                return this.moveS(pixelGrid);
-            } else if (getS(pixelGrid).getClass().getPackageName().equals("liquids")) {
-                return this.swapS(pixelGrid);
+            if (getS() == null) {
+                this.moveS();
+            } else if (getS().getClass().getPackageName().equals("liquids")) {
+                this.swapS();
+            } else {
+                this.moveRandom();
             }
-
-            return this.moveRandom(pixelGrid);
-        } catch (IndexOutOfBoundsException e) {
-            return pixelGrid;
-        }
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
-    private Pixel[][] swapS(Pixel[][] pixelGrid) {
-        Pixel other = pixelGrid[this.x][this.y + 1];
+    private void swapS() {
+        Pixel other = PixelPanel.pixelGrid[this.x][this.y + 1];
         other.y--;
         this.y++;
-        pixelGrid[other.x][other.y] = other;
-        pixelGrid[this.x][this.y] = this;
-        return pixelGrid;
     }
 
 

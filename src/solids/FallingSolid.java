@@ -11,35 +11,30 @@ public class FallingSolid extends Pixel {
         super(c, x, y);
     }
 
-    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
+    public void updatePos() {
         try {
-            if (getS(pixelGrid) == null) {
-                return this.moveS(pixelGrid);
+            if (getS() == null) {
+                this.moveS();
+            } else {
+                this.moveRandom();
             }
-
-            return this.moveRandom(pixelGrid);
-        } catch (IndexOutOfBoundsException e) {
-            return pixelGrid;
-        }
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
-    public Pixel[][] moveRandom(Pixel[][] pixelGrid) {
-        switch (new Random().nextInt(2)) { // Fall direction search preference
-            case 0: // SE preferred
-                if (this.getE(pixelGrid) == null && this.getSE(pixelGrid) == null) {
-                    return this.moveSE(pixelGrid);
-                } else if (this.getW(pixelGrid) == null && this.getSW(pixelGrid) == null) {
-                    return this.moveSW(pixelGrid);
-                }
-            case 1: // SW preferred
-                if (this.getW(pixelGrid) == null && this.getSW(pixelGrid) == null) {
-                    return this.moveSW(pixelGrid);
-                } else if (this.getE(pixelGrid) == null && this.getSE(pixelGrid) == null) {
-                    return this.moveSE(pixelGrid);
-                }
-                break;
+    public void moveRandom() {
+        if (new Random().nextBoolean()) { // Fall direction search preference
+            if (this.getE() == null && this.getSE() == null) {
+                this.moveSE();
+            } else if (this.getW() == null && this.getSW() == null) {
+                this.moveSW();
+            }
+        } else {
+            if (this.getW() == null && this.getSW() == null) {
+                this.moveSW();
+            } else if (this.getE() == null && this.getSE() == null) {
+                this.moveSE();
+            }
         }
-        return pixelGrid;
     }
 
 }

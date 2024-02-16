@@ -1,6 +1,6 @@
 package solids;
 
-import pixelphysics.Pixel;
+import pixelphysics.PixelPanel;
 
 import java.awt.*;
 
@@ -11,40 +11,13 @@ public class Sponge extends FloatingSolid {
     }
 
     @Override
-    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
-        if (this.getN(pixelGrid) != null && this.getN(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x][this.y - 1] = null;
-            return pixelGrid;
-        }
-        if (this.getNE(pixelGrid) != null && this.getNE(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x + 1][this.y - 1] = null;
-            return pixelGrid;
-        }
-        if (this.getE(pixelGrid) != null && this.getE(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x + 1][this.y - 1] = null;
-            return pixelGrid;
-        }
-        if (this.getSE(pixelGrid) != null && this.getSE(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x + 1][this.y + 1] = null;
-            return pixelGrid;
-        }
-        if (this.getS(pixelGrid) != null && this.getS(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x][this.y + 1] = null;
-            return pixelGrid;
-        }
-        if (this.getSW(pixelGrid) != null && this.getSW(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x - 1][this.y + 1] = null;
-            return pixelGrid;
-        }
-        if (this.getW(pixelGrid) != null && this.getW(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x - 1][this.y] = null;
-            return pixelGrid;
-        }
-        if (this.getNW(pixelGrid) != null && this.getNW(pixelGrid).getClass().getName().equals("Water")) {
-            pixelGrid[this.x - 1][this.y - 1] = null;
-            return pixelGrid;
-        }
-
-        return pixelGrid;
+    public void updatePos() {
+        try {
+            if (this.getN().getClass().getName().equals("Water")) {
+                PixelPanel.removePixel(this.x, this.y - 1);
+                System.out.println("hi");
+            }
+        } catch (NullPointerException ignored) {}
     }
+
 }

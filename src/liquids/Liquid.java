@@ -1,6 +1,7 @@
 package liquids;
 
 import pixelphysics.Pixel;
+import pixelphysics.PixelPanel;
 
 import java.awt.*;
 import java.util.Random;
@@ -12,36 +13,30 @@ public class Liquid extends Pixel {
     }
 
     @Override
-    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
-        int pickDirection = new Random().nextInt(2); // Direction search preference
-
+    public void updatePos() {
         try {
-            if (this.y < pixelGrid[0].length - 1 && getS(pixelGrid) == null) {
-                return this.moveS(pixelGrid);
+            if(this.y < PixelPanel.numPixelsVertical - 1 && getS() == null) {
+                this.moveS();
             } else {
-                switch (pickDirection) {
-                    case 0: // E preferred
-                        if (this.getE(pixelGrid) == null) {
-                            return this.moveE(pixelGrid);
-                        } else if (this.getW(pixelGrid) == null) {
-                            return this.moveW(pixelGrid);
-                        }
-                    case 1: // W preferred
-                        if (this.getW(pixelGrid) == null) {
-                            return this.moveW(pixelGrid);
-                        } else if (this.getE(pixelGrid) == null) {
-                            return this.moveE(pixelGrid);
-                        }
-                        break;
-                }
+                this.moveRandom();
             }
-        } catch (IndexOutOfBoundsException e) {
-            return pixelGrid;
-        }
-
-        return pixelGrid;
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
-
+    public void moveRandom() {
+        if (new Random().nextBoolean()) { // E preferred
+            if (this.getE() == null) {
+                this.moveE();
+            } else if (this.getW() == null) {
+                this.moveW();
+            }
+        } else { // W preferred
+            if (this.getW() == null) {
+                this.moveW();
+            } else if (this.getE() == null) {
+                this.moveE();
+            }
+        }
+    }
 
 }

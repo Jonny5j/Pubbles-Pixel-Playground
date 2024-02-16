@@ -17,108 +17,76 @@ public class Pixel {
         this.y = y / PixelPanel.PIXEL_SIZE;
     }
 
-    public Pixel[][] updatePos(Pixel[][] pixelGrid) {
-        return pixelGrid;
+    public void updatePos() {
+        // Movement calls go here
     }
 
-    public Pixel[][] moveN(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveN() {
         this.y--;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveNE(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveNE() {
         this.x++;
         this.y--;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveE(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveE() {
         this.x++;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveSE(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveSE() {
         this.x++;
         this.y++;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveS(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveS() {
         this.y++;
-        pixelGrid[this.x][this.y] = this;
+}
 
-        return pixelGrid;
-    }
-
-    public Pixel[][] moveSW(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveSW() {
         this.x--;
         this.y++;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveW(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveW() {
         this.x--;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel[][] moveNW(Pixel[][] pixelGrid) {
-        pixelGrid[this.x][this.y] = null;
+    public void moveNW() {
         this.x--;
         this.y--;
-        pixelGrid[this.x][this.y] = this;
-
-        return pixelGrid;
     }
 
-    public Pixel getN(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x][this.y - 1];
+    public Pixel getN() {
+        return PixelPanel.pixelGrid[this.x][this.y - 1];
     }
 
-    public Pixel getNE(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x + 1][this.y - 1];
+    public Pixel getNE() {
+        return PixelPanel.pixelGrid[this.x + 1][this.y - 1];
     }
 
-    public Pixel getE(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x + 1][this.y];
+    public Pixel getE() {
+        return PixelPanel.pixelGrid[this.x + 1][this.y];
     }
 
-    public Pixel getSE(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x + 1][this.y + 1];
+    public Pixel getSE() {
+        return PixelPanel.pixelGrid[this.x + 1][this.y + 1];
     }
 
-    public Pixel getS(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x][this.y + 1];
+    public Pixel getS() {
+        return PixelPanel.pixelGrid[this.x][this.y + 1];
     }
 
-    public Pixel getSW(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x - 1][this.y + 1];
+    public Pixel getSW() {
+        return PixelPanel.pixelGrid[this.x - 1][this.y + 1];
     }
 
-    public Pixel getW(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x - 1][this.y];
+    public Pixel getW() {
+        return PixelPanel.pixelGrid[this.x - 1][this.y];
     }
 
-    public Pixel getNW(Pixel[][] pixelGrid) {
-        return pixelGrid[this.x - 1][this.y - 1];
+    public Pixel getNW() {
+        return PixelPanel.pixelGrid[this.x - 1][this.y - 1];
     }
 
     public void draw(Graphics g) {
