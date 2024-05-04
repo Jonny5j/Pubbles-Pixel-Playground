@@ -25,6 +25,7 @@ replay_pid*
 
 # Other
 /.idea
+/target
 *.iml
 *.xml
-/out
+

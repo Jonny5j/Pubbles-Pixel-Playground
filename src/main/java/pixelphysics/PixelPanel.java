@@ -1,7 +1,6 @@
 package pixelphysics;
 
 import elements.Pixel;
-
 import javax.swing.*;
 import java.awt.*;
 

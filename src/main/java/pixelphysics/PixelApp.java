@@ -6,9 +6,9 @@ import java.awt.*;
 public class PixelApp implements Runnable {
 
     public PixelPanel panel;
-    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.7");
+    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.7.0");
     public MouseListener mouse;
-    public final double TPS = 60.0; // Ticks Per Second (should also be FPS)
+    public final double TPS = 40.0; // Ticks Per Second (should also be FPS)
 
     public static void main(String[] args) {
         Thread t = new Thread(new PixelApp());
@@ -18,8 +18,6 @@ public class PixelApp implements Runnable {
     @Override
     public void run() {
         initWindow();
-
-
         JLabel selectedPixel = new JLabel("Selected: " + mouse.getSelectedPixel());
         selectedPixel.setForeground(Color.WHITE);
         this.panel.add(selectedPixel);
