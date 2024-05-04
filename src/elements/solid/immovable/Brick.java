@@ -1,4 +1,4 @@
-package solids;
+package elements.solid.immovable;
 
 import java.awt.*;
 

@@ -6,7 +6,7 @@ import java.awt.*;
 public class PixelApp implements Runnable {
 
     public PixelPanel panel;
-    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.6");
+    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.7");
     public MouseListener mouse;
     public final double TPS = 60.0; // Ticks Per Second (should also be FPS)
 
@@ -33,7 +33,7 @@ public class PixelApp implements Runnable {
             lastTime = now;
             while(delta >= 1){
                 selectedPixel.setText("Selected: " + mouse.getSelectedPixel());
-                this.panel.step();
+                this.panel.stepAll();
 
                 delta--;
             }

@@ -1,6 +1,6 @@
-package solids;
+package elements.solid.immovable;
 
-import pixelphysics.Pixel;
+import elements.Pixel;
 
 import java.awt.*;
 

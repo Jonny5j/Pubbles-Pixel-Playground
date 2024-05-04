@@ -1,4 +1,4 @@
-package liquids;
+package elements.liquid;
 
 import java.awt.*;
 

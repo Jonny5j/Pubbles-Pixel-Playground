@@ -1,15 +1,14 @@
 package pixelphysics;
 
+import elements.Pixel;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PixelPanel extends JPanel {
     public static int PIXEL_SIZE = 4;
     public static int numPixelsHorizontal, numPixelsVertical;
     public static Pixel[][] pixelGrid;
-    public static List<Pixel> placedPixels = new ArrayList<>();
 
 
     public PixelPanel(int w, int h) {
@@ -29,22 +28,26 @@ public class PixelPanel extends JPanel {
         System.out.println(p.getClass() + " Created at: " + p.x + ", " + p.y + ". Color: " + p.c);
 
         pixelGrid[p.x][p.y] = p;
-        placedPixels.addFirst(p);
     }
 
-    public static void removePixel(int x, int y) {
-        placedPixels.remove(pixelGrid[x / PIXEL_SIZE][y / PIXEL_SIZE]);
-        pixelGrid[x / PIXEL_SIZE][y / PIXEL_SIZE] = null;
-        System.out.println("Removed pixel at " + x / PIXEL_SIZE + ", " + y / PIXEL_SIZE);
+    public static Pixel removePixel(int mouseX, int mouseY) {
+        Pixel removedPixel = pixelGrid[mouseX / PIXEL_SIZE][mouseY / PIXEL_SIZE];
+        pixelGrid[mouseX / PIXEL_SIZE][mouseY / PIXEL_SIZE] = null;
+        System.out.println("Removed pixel at " + mouseX / PIXEL_SIZE + ", " + mouseY / PIXEL_SIZE);
+        return removedPixel;
     }
 
-    public void step() {
-        List<Pixel> readAll = new ArrayList<>(placedPixels); // Create a copy to read from to avoid ConcurrentModificationException
-        for (Pixel p : readAll) {
-            pixelGrid[p.x][p.y] = null;
-            p.updatePos();
-            pixelGrid[p.x][p.y] = p;
-            this.repaint();
+    public void stepAll() {
+        for (int y = numPixelsVertical - 1; y > 0; y--) {
+            for (int x = 0; x < numPixelsHorizontal; x++) {
+                Pixel p = pixelGrid[x]
+                        [y];
+                if (p == null) {
+                    continue;
+                }
+                pixelGrid = p.step(pixelGrid);
+                this.repaint();
+            }
         }
     }
 

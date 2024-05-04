@@ -1,7 +1,10 @@
 package pixelphysics;
 
-import liquids.*;
-import solids.*;
+import elements.liquid.*;
+import elements.solid.immovable.Brick;
+import elements.solid.immovable.Sponge;
+import elements.solid.moveable.FallingSolid;
+import elements.solid.moveable.Sand;
 
 import javax.swing.*;
 import java.awt.*;
