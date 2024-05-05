@@ -12,19 +12,22 @@ public class Sponge extends FloatingSolid {
     @Override
     public Pixel[][] step(Pixel[][] grid) {
         try {
-            if (this.getN(grid).getClass().getSimpleName().equals("Water")) {
+            Pixel n = this.getN(grid);
+            Pixel e = this.getE(grid);
+            Pixel s = this.getS(grid);
+            Pixel w = this.getW(grid);
+
+            if (n != null && n.getClass().getSimpleName().equals("Water")) {
                 grid[this.x][this.y - 1] = null;
-            }
-            if (this.getE(grid).getClass().getSimpleName().equals("Water")) {
+            } else if (e != null && e.getClass().getSimpleName().equals("Water")) {
                 grid[this.x + 1][this.y] = null;
-            }
-            if (this.getS(grid).getClass().getSimpleName().equals("Water")) {
+            } else if (s != null && s.getClass().getSimpleName().equals("Water")) {
                 grid[this.x][this.y + 1] = null;
-            }
-            if (this.getW(grid).getClass().getSimpleName().equals("Water")) {
+            } else if (w != null && w.getClass().getSimpleName().equals("Water")) {
                 grid[this.x - 1][this.y] = null;
             }
-        } catch (NullPointerException ignored) {}
+        } catch (IndexOutOfBoundsException ignored) {}
+
 
         return grid;
     }
