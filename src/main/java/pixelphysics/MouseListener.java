@@ -1,65 +1,52 @@
 package pixelphysics;
 
+import elements.solid.immovable.*;
+import elements.solid.moveable.*;
 import elements.liquid.*;
-import elements.solid.immovable.Brick;
-import elements.solid.immovable.Sponge;
-import elements.solid.moveable.FallingSolid;
-import elements.solid.moveable.Sand;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MouseListener extends MouseAdapter {
 
-    private final int PIXEL_DELAY = 20; // Delay between place/remove operations in ms
-    private final PixelPanel panel;
     private static int selectedPixelIndex;
-    private static Timer timer;
+    private final Timer timer = new Timer();
+    private TimerTask leftTask;
+    private TimerTask rightTask;
     private int mouseX;
     private int mouseY;
     private int brushSize = 1;
+    private static final int DELAY = 1; // in ms
     private static final String[] pixelLabels = {"Brick", "Random", "Sand", "Water", "Sponge"}; // Add future pixels here to add to menu
 
 
-    public MouseListener(PixelPanel panel) {
-        this.panel = panel;
-    }
+    public MouseListener() {}
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.mouseX = e.getX();
-        this.mouseY = e.getY();
-
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            timer = new Timer(PIXEL_DELAY, actionEvent -> lmbPressed());
+        mouseX = e.getX();
+        mouseY = e.getY();
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            timer.scheduleAtFixedRate(this.leftTask = new LeftTimerTask(), 0, DELAY);
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            timer.scheduleAtFixedRate(this.rightTask = new RightTimerTask(), 0, DELAY);
         }
-
-        if (SwingUtilities.isRightMouseButton(e)) {
-            timer = new Timer(PIXEL_DELAY, actionEvent -> rmbPressed());
-        }
-        timer.start();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        timer.stop();
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            this.leftTask.cancel();
+        } else if (e.getButton() == MouseEvent.BUTTON3) {
+            this.rightTask.cancel();
+        }
     }
 
-    @Override
     public void mouseDragged(MouseEvent e) {
         this.mouseX = e.getX();
         this.mouseY = e.getY();
-        timer.stop();
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            lmbPressed();
-        }
-
-        if (SwingUtilities.isRightMouseButton(e)) {
-            rmbPressed();
-        }
-        timer.start();
     }
 
     @Override
@@ -92,35 +79,90 @@ public class MouseListener extends MouseAdapter {
     private void lmbPressed() {
         switch (pixelLabels[selectedPixelIndex]) {
             case "Brick":
-                this.panel.addPixel(new Brick(this.mouseX, this.mouseY));
+                for (int i = 0; i < brushSize; i++) {
+                    for (int j = 0; j < brushSize; j++) {
+                        try {
+                            PixelPanel.addPixel(new Brick(this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE)));
+                        } catch (IndexOutOfBoundsException ignored) {}
+                    }
+                }
                 break;
             case "Random":
-                Random random = new Random();
+                for (int i = 0; i < brushSize; i++) {
+                    for (int j = 0; j < brushSize; j++) {
+                        try {
+                            Random random = new Random();
 
-                float r = (float) (random.nextFloat() / 2f + 0.5);
-                float g = (float) (random.nextFloat() / 2f + 0.5);
-                float b = (float) (random.nextFloat() / 2f + 0.5);
+                            float r = (float) (random.nextFloat() / 2f + 0.5);
+                            float g = (float) (random.nextFloat() / 2f + 0.5);
+                            float b = (float) (random.nextFloat() / 2f + 0.5);
 
-                this.panel.addPixel(new FallingSolid(new Color(r, g, b), this.mouseX, this.mouseY));
+                            PixelPanel.addPixel(new FallingSolid(new Color(r, g, b), this.mouseX, this.mouseY));
+                        } catch (IndexOutOfBoundsException ignored) {}
+                    }
+                }
                 break;
             case "Sand":
-                this.panel.addPixel(new Sand(this.mouseX, this.mouseY));
+                for (int i = 0; i < brushSize; i++) {
+                    for (int j = 0; j < brushSize; j++) {
+                        try {
+                            PixelPanel.addPixel(new Sand(this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE)));
+                        } catch (IndexOutOfBoundsException ignored) {}
+                    }
+                }
                 break;
             case "Water":
-                this.panel.addPixel(new Water(this.mouseX, this.mouseY));
+                for (int i = 0; i < brushSize; i++) {
+                    for (int j = 0; j < brushSize; j++) {
+                        try {
+                            PixelPanel.addPixel(new Water(this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE)));
+                        } catch (IndexOutOfBoundsException ignored) {}
+                    }
+                }
                 break;
             case "Sponge":
-                this.panel.addPixel(new Sponge(this.mouseX, this.mouseY));
+                for (int i = 0; i < brushSize; i++) {
+                    for (int j = 0; j < brushSize; j++) {
+                        try {
+                            PixelPanel.addPixel(new Sponge(this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE)));
+                        } catch (IndexOutOfBoundsException ignored) {}
+                    }
+                }
                 break;
         }
     }
 
     private void rmbPressed() {
-        panel.removePixel(this.mouseX, this.mouseY);
+        for (int i = 0; i < brushSize; i++) {
+            for (int j = 0; j < brushSize; j++) {
+                try {
+                    PixelPanel.removePixel(this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE));
+                } catch (IndexOutOfBoundsException ignored) {}
+            }
+        }
+
     }
 
     public String getSelectedPixel() {
         return pixelLabels[selectedPixelIndex];
+    }
+
+    private class LeftTimerTask extends TimerTask {
+        public void run() {
+            if (System.currentTimeMillis() - scheduledExecutionTime() >= DELAY) {
+                return;
+            }
+            lmbPressed();
+        }
+    }
+
+    private class RightTimerTask extends TimerTask {
+        public void run() {
+            if (System.currentTimeMillis() - scheduledExecutionTime() >= DELAY) {
+                return;
+            }
+            rmbPressed();
+        }
     }
 
 }

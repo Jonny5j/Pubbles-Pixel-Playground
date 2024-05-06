@@ -1,7 +1,6 @@
 package elements.liquid;
 
 import elements.Pixel;
-import pixelphysics.PixelPanel;
 
 import java.awt.*;
 import java.util.Random;
@@ -15,29 +14,21 @@ public class Liquid extends Pixel {
     @Override
     public Pixel[][] step(Pixel[][] grid) {
         try {
-            if(this.y < PixelPanel.numPixelsVertical - 1 && getS(grid) == null) {
-                this.moveS(grid);
+            if (getS(grid) == null) {
+                return this.moveS(grid);
             } else {
-                this.moveRandom(grid);
+                return this.moveRandom(grid);
             }
-        } catch (IndexOutOfBoundsException ignored) {}
-
-        return grid;
+        } catch (IndexOutOfBoundsException ignored) {
+            return this.moveRandom(grid);
+        }
     }
 
     public Pixel[][] moveRandom(Pixel[][] grid) {
-        if (new Random().nextBoolean()) { // E preferred
-            if (this.getE(grid) == null) {
-                this.moveE(grid);
-            } else if (this.getW(grid) == null) {
-                this.moveW(grid);
-            }
-        } else { // W preferred
-            if (this.getW(grid) == null) {
-                this.moveW(grid);
-            } else if (this.getE(grid) == null) {
-                this.moveE(grid);
-            }
+        if (new Random().nextBoolean() && this.getE(grid) == null) { // Fall direction search preference
+            return this.moveE(grid);
+        } else if (new Random().nextBoolean() && this.getW(grid) == null){
+            return this.moveW(grid);
         }
 
         return grid;

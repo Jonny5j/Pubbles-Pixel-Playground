@@ -6,9 +6,9 @@ import java.awt.*;
 public class PixelApp implements Runnable {
 
     public PixelPanel panel;
-    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.7.0");
+    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.8.0");
     public MouseListener mouse;
-    public final double TPS = 40.0; // Ticks Per Second (should also be FPS)
+    public static final double TPS = 40.0; // Ticks Per Second (should also be FPS)
 
     public static void main(String[] args) {
         Thread t = new Thread(new PixelApp());
@@ -23,7 +23,7 @@ public class PixelApp implements Runnable {
         this.panel.add(selectedPixel);
 
         long lastTime = System.nanoTime();
-        final double ns = 1000000000.0 / this.TPS;
+        final double ns = 1000000000.0 / TPS;
         double delta = 0;
         while(true) {
             long now = System.nanoTime();
@@ -41,7 +41,7 @@ public class PixelApp implements Runnable {
     public void initWindow() {
         GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         this.panel = new PixelPanel(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
-        this.mouse = new MouseListener(this.panel);
+        this.mouse = new MouseListener();
         this.panel.addMouseListener(this.mouse);
         this.panel.addMouseWheelListener(this.mouse);
         this.panel.addMouseMotionListener(this.mouse);

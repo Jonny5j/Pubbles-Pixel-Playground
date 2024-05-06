@@ -23,7 +23,7 @@ public class FallingSolid extends Pixel {
         return grid;
     }
 
-    public Pixel[][] moveRandom(Pixel[][] grid) {
+    protected Pixel[][] moveRandom(Pixel[][] grid) {
         if (new Random().nextBoolean()) { // Fall direction search preference
             if (this.getE(grid) == null && this.getSE(grid) == null) {
                 return this.moveSE(grid);

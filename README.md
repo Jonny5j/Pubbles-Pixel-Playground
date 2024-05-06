@@ -1,8 +1,9 @@
-# Pubble's Pixel Playground - V0.7.0
+# Pubble's Pixel Playground - V0.8.0
  
 Left click to spawn a pixel.\
 Right click to delete a pixel.\
-Scroll wheel to select a different pixel type.
+Scroll wheel to select a different pixel type.\
+CTRL + Scroll wheel to change brush size.
 
 KEY:\
 Brick - places a pixel that is unaffected by gravity.\
