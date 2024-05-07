@@ -6,7 +6,7 @@ import java.awt.*;
 public class PixelApp implements Runnable {
 
     public PixelPanel panel;
-    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.8.0");
+    public JFrame window = new JFrame("Pubble's Pixel Playground - Version 0.8.1");
     public MouseListener mouse;
     public static final double TPS = 40.0; // Ticks Per Second (should also be FPS)
 
