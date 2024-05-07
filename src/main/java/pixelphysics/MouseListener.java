@@ -97,7 +97,7 @@ public class MouseListener extends MouseAdapter {
                             float g = (float) (random.nextFloat() / 2f + 0.5);
                             float b = (float) (random.nextFloat() / 2f + 0.5);
 
-                            PixelPanel.addPixel(new FallingSolid(new Color(r, g, b), this.mouseX, this.mouseY));
+                            PixelPanel.addPixel(new FallingSolid(new Color(r, g, b), this.mouseX - (i * PixelPanel.PIXEL_SIZE), this.mouseY - (j * PixelPanel.PIXEL_SIZE)));
                         } catch (IndexOutOfBoundsException ignored) {}
                     }
                 }
