@@ -20,7 +20,7 @@ public class Liquid extends Pixel {
                 return this.moveRandom(grid);
             }
         } catch (IndexOutOfBoundsException ignored) {
-            return this.moveRandom(grid);
+            return grid;
         }
     }
 
